@@ -15,17 +15,18 @@ import {
 import AdbIcon from '@mui/icons-material/Adb';
 import SearchOutlined from '@mui/icons-material/SearchOutlined';
 import Web3 from 'web3';
-import { fetchUserEthBalance } from '../api/data';
+import { fetchUserTokenBalance, fetchUserTransfers } from '../api/data';
 
 const pages = ['Borrow', 'Lend', 'Pools'];
 
-export default function Navbar({ setAddress, setEthBalance, setError }) {
+export default function Navbar({ setAddress, setError, setTokenBalance, setTransfers }) {
   const [search, setSearch] = useState('')
   const handleSearch = () => {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
     if (web3.utils.isAddress(search)) {
       setAddress(search)
-      fetchUserEthBalance(search, setEthBalance, setError)
+      fetchUserTokenBalance(search, setTokenBalance, setError)
+      fetchUserTransfers(search, setTransfers, setError)
     }
   }
 

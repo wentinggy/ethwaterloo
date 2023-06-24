@@ -5,17 +5,26 @@ import Dashboard from "./dashboard"
 
 export default function App() {
   const [address, setAddress] = useState('')
-  const [ethBalance, setEthBalance] = useState(0)
+  const [tokenBalance, setTokenBalance] = useState(undefined)
+  const [transfers, setTransfers] = useState(undefined)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    console.log(ethBalance)
-  }, [ethBalance])
+    console.log(transfers)
+  }, [transfers])
 
   return (
     <Box>
-      <Navbar setAddress={setAddress} setEthBalance={setEthBalance} setError={setError} />
-      <Dashboard error={error} ethBalance={ethBalance} />
+      <Navbar
+        setAddress={setAddress}
+        setError={setError}
+        setTokenBalance={setTokenBalance}
+        setTransfers={setTransfers}
+      />
+      <Dashboard
+        error={error}
+        tokenBalance={tokenBalance}
+      />
     </Box>
   )
 }
