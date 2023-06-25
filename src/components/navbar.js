@@ -17,7 +17,7 @@ import SearchOutlined from '@mui/icons-material/SearchOutlined';
 import Web3 from 'web3';
 import { fetchMacroScore, fetchUserTokenBalance, fetchUserTransfers } from '../api/data';
 
-const pages = ['Borrow', 'Lend', 'Pools'];
+const pages = ['How it works', 'Users'];
 
 export default function Navbar({ setAddress, setError, setTokenBalance, setTransfers, setMacroScore }) {
   const [search, setSearch] = useState('')
