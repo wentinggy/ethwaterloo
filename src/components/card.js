@@ -1,6 +1,6 @@
-import { Card, CardContent, Typography } from "@mui/material"
+import { Card, CardMedia, CardContent, Typography } from "@mui/material"
 
-export default function ValueCard({ title, value }) {
+export default function ValueCard({ title, value, graph, image }) {
   return (
     <Card>
       <CardContent>
@@ -10,6 +10,12 @@ export default function ValueCard({ title, value }) {
         <Typography variant="h5" component="div">
           {value}
         </Typography>
+        <CardMedia>
+          {graph}
+        </CardMedia>
+        <CardMedia>
+          {image}
+        </CardMedia>
       </CardContent>
     </Card>
   )
