@@ -38,6 +38,7 @@ export default function Demographics({ error, tokenBalance }) {
 		<>
 			{!error && (
 				<Container>
+					<Typography variant="title"> SPARK USERS DEMOGRAPHICS </Typography>
 					<Grid container spacing={2} sx={{ py: 2 }}>
 						<Grid item xs={6}>
 							<Card>
