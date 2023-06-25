@@ -33,9 +33,9 @@ export default function Demographics({ error, tokenBalance }) {
 		"collateral_assets"
 	);
 	const debtAssets = countCollateralAssetTypes(wallets, "debt_assets");
-	console.log(wallets);
+
 	return (
-		<>
+		<Box paddingTop={"5vh"}>
 			{!error && (
 				<Container>
 					<Typography variant="title"> SPARK USERS DEMOGRAPHICS </Typography>
@@ -115,6 +115,6 @@ export default function Demographics({ error, tokenBalance }) {
 					</Box>
 				</Container>
 			)}
-		</>
+		</Box>
 	);
 }

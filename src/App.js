@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react"
-import Navbar from "./components/navbar"
-import Dashboard from "./dashboard"
-import Demographics from "./demographics"
-import { Box } from "@mui/system"
+import React, { useEffect, useState } from "react";
+import Navbar from "./components/navbar";
+import Dashboard from "./dashboard";
+import Demographics from "./demographics";
+import { Box } from "@mui/system";
 
 export default function App() {
 	const [address, setAddress] = useState("");
@@ -10,6 +10,7 @@ export default function App() {
 	const [transfers, setTransfers] = useState(undefined);
 	const [macroScore, setMacroScore] = useState(undefined);
 	const [error, setError] = useState("");
+	const [page, setPage] = useState(0);
 
 	useEffect(() => {
 		console.log(macroScore);
@@ -23,15 +24,18 @@ export default function App() {
 				setTokenBalance={setTokenBalance}
 				setTransfers={setTransfers}
 				setMacroScore={setMacroScore}
+				setPage={setPage}
 			/>
-			<Dashboard
-				error={error}
-				tokenBalance={tokenBalance}
-				transfers={transfers}
-				macroScore={macroScore}
-				address={address}
-			/>
-			<Demographics> </Demographics>
-    </Box>
-  )
+			{page > 0 && (
+				<Dashboard
+					error={error}
+					tokenBalance={tokenBalance}
+					transfers={transfers}
+					macroScore={macroScore}
+					address={address}
+				/>
+			)}
+			{page === 0 && <Demographics />}
+		</Box>
+	);
 }
