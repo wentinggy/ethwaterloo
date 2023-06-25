@@ -20,4 +20,4 @@ Update the init function call in the file token.js with your own airstack API ke
 npm start
 Access the dashboard in your browser at http://localhost:3000.
 
-View the demographics data visualisation on home page or search for any ETH wallet address to see user's data.
+View the sparks user demographics data visualisation on home page or search for any ETH wallet address to see user's data.
