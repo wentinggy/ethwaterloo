@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { fetchSparkWallets } from "./api/data";
-import { extractBuckets, extractValueLength } from "./util/dataCleaner";
-import BarChart from "./components/demographic/BarChart";
+import { calculateStatistics, extractBucketsFix } from "./util/dataCleaner";
+import BarChartSupply from "./components/demographic/BarChartSupply";
 
 export default function Demographics({ error, tokenBalance }) {
 	const [wallets, setWallets] = useState([]);
 
-	// fetchSparkWallets().then((res) => {
-	// 	setWallets(res);
-	// });
+	useEffect(() => {
+		fetchSparkWallets(setWallets);
+	}, []);
 
 	if (wallets.length < 1) return <div />;
-
-	// console.log(extractBuckets(wallets, "supply", 5));
+	// console.log(extractBucketsFix(wallets, "supply"));
+	console.log(calculateStatistics(wallets, "supply"));
 	return (
 		<>
 			{!error && (
 				<Box>
-					{/* <BarChart data={extractBuckets(wallets, "supply", 5)} /> */}
+					<BarChartSupply data={extractBucketsFix(wallets, "supply")} />
 				</Box>
 			)}
 		</>
