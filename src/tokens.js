@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { init } from "@airstack/airstack-react"
 import { useQuery } from "@airstack/airstack-react"
-import { Box, Container, Grid, Card, CardContent, Typography } from "@mui/material"
+import { Box, Grid, Card, CardContent, Typography } from "@mui/material"
 import moment from "moment"
 
 init("598406f101364281b160f60f0761fe96")
