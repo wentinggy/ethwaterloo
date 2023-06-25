@@ -24,6 +24,8 @@ export default function App() {
       <Dashboard
         error={error}
         tokenBalance={tokenBalance}
+        transfers={transfers}
+        address={address}
       />
     </Box>
   )
