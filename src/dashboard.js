@@ -90,8 +90,6 @@ export default function Dashboard({
 		VERY_LOW_RISK: "success",
 	};
 
-	console.log(inflowAssetsSum);
-	console.log(outflowAssetsSum);
 	return (
 		<Container sx={{ py: 4 }}>
 			{address && (
