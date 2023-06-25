@@ -22,8 +22,8 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
     }
   ]
   const balances = tokens && tokens.map((token, _) => ({
-    title: `${token.tokenInfo.name.toUpperCase()} BALANCE`,
-    value: `${token.balance/(10 ** parseInt(token.tokenInfo.decimals))} ${token.tokenInfo.symbol}`
+    title: `${token.tokenInfo.name.toUpperCase().substring(0, 22)} BALANCE`,
+    value: `${(token.balance/(10 ** parseInt(token.tokenInfo.decimals))).toFixed(6)} ${token.tokenInfo.symbol}`
   }))
   const risk = macroScore && [
     {
@@ -82,9 +82,9 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
               </Grid>
             ))}
           </Grid>
-          <Grid container spacing={2} sx={{ pb: 2 }}>
+          <Grid container wrap="no-wrap" spacing={2} sx={{ pb: 2, overflow: 'scroll' }}>
             {balances.map((item, idx) => (
-              <Grid item xs={3}>
+              <Grid item xs={3} sx={{ minWidth: 300, maxWidth: 300 }}>
                 <ValueCard key={idx} title={item.title} value={item.value} />
               </Grid>
             ))}
