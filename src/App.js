@@ -5,6 +5,7 @@ import { init } from "@airstack/airstack-react"
 import { useQuery } from "@airstack/airstack-react"
 import { Card, CardContent, Typography } from "@mui/material"
 import Demographics from "./demographics"
+import { Box } from "@mui/system"
 
 init("598406f101364281b160f60f0761fe96")
 
@@ -196,6 +197,7 @@ export default function App() {
 				macroScore={macroScore}
 				address={address}
 			/>
+      <MyComponent address={address} />
 			<Demographics> </Demographics>
     </Box>
   )
