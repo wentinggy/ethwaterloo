@@ -11,10 +11,6 @@ export default function App() {
 	const [macroScore, setMacroScore] = useState(undefined);
 	const [error, setError] = useState("");
 
-	useEffect(() => {
-		console.log(macroScore);
-	}, [macroScore]);
-
 	return (
 		<Box>
 			<Navbar

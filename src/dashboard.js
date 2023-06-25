@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, Chip, Container, Grid, Typography } from "@mui/material";
 import ValueCard from "./components/card";
+import WebGraph from "./components/demographic/WebGraph";
+import PieChart from "./components/demographic/PieChart";
 
 export default function Dashboard({ error, tokenBalance, transfers, macroScore, address }) {
   const tokens = tokenBalance && tokenBalance.tokens && tokenBalance.tokens.filter((token) => token.tokenInfo.symbol.length < 6)
@@ -35,7 +37,7 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
       value: `${macroScore.probability_of_liquidation}`
     }
   ]
-  const tokenTransfers = transfers && [
+  const tokenTransfers = macroScore && [
     {
       title: 'INFLOW TOKEN COMPOSITION',
       value: `${macroScore.score}`
@@ -77,15 +79,15 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
           <Typography variant="h5">Assets</Typography>
           <Grid container spacing={2} sx={{ py: 2 }}>
             {overview.map((item, idx) => (
-              <Grid item xs={4}>
-                <ValueCard key={idx} title={item.title} value={item.value} />
+              <Grid key={idx} item xs={4}>
+                <ValueCard title={item.title} value={item.value} />
               </Grid>
             ))}
           </Grid>
           <Grid container wrap="no-wrap" spacing={2} sx={{ pb: 2, overflow: 'scroll' }}>
             {balances.map((item, idx) => (
-              <Grid item xs={3}>
-                <ValueCard key={idx} title={item.title} value={item.value} />
+              <Grid key={idx} item xs={3}>
+                <ValueCard title={item.title} value={item.value} />
               </Grid>
             ))}
           </Grid>
@@ -99,20 +101,20 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
           </Box>
           <Grid container spacing={2} sx={{ py: 2 }}>
             {risk.map((item, idx) => (
-              <Grid item xs={4}>
-                <ValueCard key={idx} title={item.title} value={item.value} />
+              <Grid key={idx} item xs={4}>
+                <ValueCard title={item.title} value={item.value} graph={<WebGraph width={340} height={340} data={[1, 2, 3, 4, 5, 6, 7]} />} />
               </Grid>
             ))}
           </Grid>
         </Box>
       )}
-      {!error && transfers && (
+      {!error && transfers && macroScore && (
         <Box sx={{ pt: 2 }}>
           <Typography variant="h5" sx={{ mr: 1 }}>Transfers</Typography>
           <Grid container spacing={2} sx={{ py: 2 }}>
             {tokenTransfers.map((item, idx) => (
               <Grid item xs={4}>
-                <ValueCard key={idx} title={item.title} value={item.value} />
+                <ValueCard key={idx} title={item.title} value={item.value} graph={<PieChart width={340} height={340} />} />
               </Grid>
             ))}
           </Grid>
