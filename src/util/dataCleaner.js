@@ -96,3 +96,19 @@ export function calculateStatistics(arr, property) {
 
 	return { mean, mode, median };
 }
+
+export function countCollateralAssetTypes(wallet, enumType) {
+	const counts = {};
+
+	for (const obj of wallet) {
+		const enums = obj[enumType];
+
+		if (enums && Array.isArray(enums)) {
+			for (const enumValue of enums) {
+				counts[enumValue] = (counts[enumValue] || 0) + 1;
+			}
+		}
+	}
+
+	return counts;
+}
