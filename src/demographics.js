@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { fetchSparkWallets } from "./api/data";
-import { calculateStatistics, extractBucketsFix } from "./util/dataCleaner";
+import {
+	calculateStatistics,
+	countCollateralAssetTypes,
+	extractBucketsFix,
+} from "./util/dataCleaner";
 import { BarSupply } from "./components/demographic/BarSupply";
-import { PieChart } from "./components/demographic/PieChart";
+import PieChart from "./components/demographic/PieChart";
 
 export default function Demographics({ error, tokenBalance }) {
 	const [wallets, setWallets] = useState([]);
@@ -16,7 +20,12 @@ export default function Demographics({ error, tokenBalance }) {
 
 	const supplyStats = calculateStatistics(wallets, "supply");
 	const borrowStats = calculateStatistics(wallets, "borrow");
-
+	const collateralAssets = countCollateralAssetTypes(
+		wallets,
+		"collateral_assets"
+	);
+	const debtAssets = countCollateralAssetTypes(wallets, "debt_assets");
+	console.log(collateralAssets);
 	return (
 		<>
 			{!error && (
@@ -39,8 +48,16 @@ export default function Demographics({ error, tokenBalance }) {
 						<Typography> {`Median: ${borrowStats.median}`} </Typography>
 						<Typography> {`Mean: ${borrowStats.mean}`} </Typography>
 					</Box>
-					<Box>
-						<PieChart datasets={[10, 5]} label={"DAI holders"} />
+					<Box paddingTop={"100px"}>
+						{Object.entries(collateralAssets).map(([key, value]) => (
+							<>
+								<Typography> {key} </Typography>
+								<PieChart
+									datasets={[value, wallets.length - value]}
+									label={key}
+								></PieChart>
+							</>
+						))}
 					</Box>
 				</Box>
 			)}
