@@ -21,7 +21,7 @@ import {
 	fetchUserTransfers,
 } from "../api/data";
 
-const pages = ["How it works", "Users"];
+const pages = ["How it works", "Demographics"];
 
 export default function Navbar({
 	setAddress,
@@ -29,6 +29,7 @@ export default function Navbar({
 	setTokenBalance,
 	setTransfers,
 	setMacroScore,
+	setPage,
 }) {
 	const [search, setSearch] = useState("");
 	const handleSearch = () => {
@@ -38,6 +39,7 @@ export default function Navbar({
 			fetchUserTokenBalance(search, setTokenBalance, setError);
 			fetchUserTransfers(search, setTransfers, setError);
 			fetchMacroScore(search, setMacroScore, setError);
+			setPage(1);
 		}
 	};
 
@@ -68,6 +70,7 @@ export default function Navbar({
 							<Button
 								key={page}
 								sx={{ my: 2, color: "black", display: "block" }}
+								onClick={() => setPage(0)}
 							>
 								{page}
 							</Button>
