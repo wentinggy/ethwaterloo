@@ -12,14 +12,14 @@ import {
   Toolbar,
   Typography
 } from '@mui/material';
-import AdbIcon from '@mui/icons-material/Adb';
+import FlashOnIcon from '@mui/icons-material/FlashOn';
 import SearchOutlined from '@mui/icons-material/SearchOutlined';
 import Web3 from 'web3';
-import { fetchUserTokenBalance, fetchUserTransfers } from '../api/data';
+import { fetchMacroScore, fetchUserTokenBalance, fetchUserTransfers } from '../api/data';
 
 const pages = ['Borrow', 'Lend', 'Pools'];
 
-export default function Navbar({ setAddress, setError, setTokenBalance, setTransfers }) {
+export default function Navbar({ setAddress, setError, setTokenBalance, setTransfers, setMacroScore }) {
   const [search, setSearch] = useState('')
   const handleSearch = () => {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
@@ -27,6 +27,7 @@ export default function Navbar({ setAddress, setError, setTokenBalance, setTrans
       setAddress(search)
       fetchUserTokenBalance(search, setTokenBalance, setError)
       fetchUserTransfers(search, setTransfers, setError)
+      fetchMacroScore(search, setMacroScore, setError)
     }
   }
 
@@ -34,7 +35,7 @@ export default function Navbar({ setAddress, setError, setTokenBalance, setTrans
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <FlashOnIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
