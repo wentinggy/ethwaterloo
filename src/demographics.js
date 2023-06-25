@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import {
+	Box,
+	Card,
+	CardContent,
+	Container,
+	Grid,
+	Typography,
+} from "@mui/material";
 import { fetchSparkWallets } from "./api/data";
 import {
 	calculateStatistics,
@@ -7,7 +14,8 @@ import {
 	extractBucketsFix,
 } from "./util/dataCleaner";
 import { BarSupply } from "./components/demographic/BarSupply";
-import PieChart from "./components/demographic/PieChart";
+import PieChartOwned from "./components/demographic/PieChartOwned";
+import ValueCard from "./components/card";
 
 export default function Demographics({ error, tokenBalance }) {
 	const [wallets, setWallets] = useState([]);
@@ -25,41 +33,86 @@ export default function Demographics({ error, tokenBalance }) {
 		"collateral_assets"
 	);
 	const debtAssets = countCollateralAssetTypes(wallets, "debt_assets");
-	console.log(collateralAssets);
+	console.log(wallets);
 	return (
 		<>
 			{!error && (
-				<Box padding={"300px"}>
-					<Box>
-						<BarSupply
-							walletData={extractBucketsFix(wallets, "supply")}
-							title="User supply histogram"
-							backgroundColor={"rgba(0, 99, 132, 0.5)"}
-						></BarSupply>
-						<Typography> {`Median: ${supplyStats.median}`} </Typography>
-						<Typography> {`Mean: ${supplyStats.mean}`} </Typography>
-					</Box>
-					<Box paddingTop={"100px"}>
-						<BarSupply
-							walletData={extractBucketsFix(wallets, "borrow")}
-							title="User borrow histogram"
-							backgroundColor={"rgba(255, 99, 132, 0.5)"}
-						></BarSupply>
-						<Typography> {`Median: ${borrowStats.median}`} </Typography>
-						<Typography> {`Mean: ${borrowStats.mean}`} </Typography>
-					</Box>
-					<Box paddingTop={"100px"}>
+				<Container>
+					<Grid container spacing={2} sx={{ py: 2 }}>
+						<Grid item xs={6}>
+							<Card>
+								<CardContent paddingTop={"100px"}>
+									<Box>
+										<BarSupply
+											walletData={extractBucketsFix(wallets, "supply")}
+											title="User Supply Histogram ($USD)"
+											backgroundColor={"rgba(0, 99, 132, 0.5)"}
+										></BarSupply>
+										<Typography> {`Median: ${supplyStats.median}`} </Typography>
+										<Typography> {`Mean: ${supplyStats.mean}`} </Typography>
+									</Box>
+								</CardContent>
+							</Card>
+						</Grid>
+
+						<Grid item xs={6}>
+							<Card>
+								<CardContent paddingTop={"100px"}>
+									<Box>
+										<BarSupply
+											walletData={extractBucketsFix(wallets, "borrow")}
+											title="User Borrow Histogram ($USD)"
+											backgroundColor={"rgba(255, 99, 132, 0.5)"}
+										></BarSupply>
+										<Typography> {`Median: ${borrowStats.median}`} </Typography>
+										<Typography> {`Mean: ${borrowStats.mean}`} </Typography>
+									</Box>
+								</CardContent>
+							</Card>
+						</Grid>
+					</Grid>
+					<Typography> Collateral Asset Types Owned</Typography>
+					<Grid container spacing={2} sx={{ py: 2 }}>
 						{Object.entries(collateralAssets).map(([key, value]) => (
 							<>
-								<Typography> {key} </Typography>
-								<PieChart
-									datasets={[value, wallets.length - value]}
-									label={key}
-								></PieChart>
+								<Grid item xs={3}>
+									<ValueCard
+										key={key}
+										title={key}
+										graph={
+											<PieChartOwned
+												datasets={[value, wallets.length - value]}
+												label={key}
+											></PieChartOwned>
+										}
+									/>
+								</Grid>
 							</>
 						))}
+					</Grid>
+
+					<Box paddingTop={"100px"}>
+						<Typography> Debt Asset Types Owned</Typography>
+						<Grid container spacing={2} sx={{ py: 2 }}>
+							{Object.entries(debtAssets).map(([key, value]) => (
+								<>
+									<Grid item xs={3}>
+										<ValueCard
+											key={key}
+											title={key}
+											graph={
+												<PieChartOwned
+													datasets={[value, wallets.length - value]}
+													label={key}
+												></PieChartOwned>
+											}
+										/>
+									</Grid>
+								</>
+							))}
+						</Grid>
 					</Box>
-				</Box>
+				</Container>
 			)}
 		</>
 	);

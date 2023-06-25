@@ -105,7 +105,8 @@ export function countCollateralAssetTypes(wallet, enumType) {
 
 		if (enums && Array.isArray(enums)) {
 			for (const enumValue of enums) {
-				counts[enumValue] = (counts[enumValue] || 0) + 1;
+				if (enumValue !== null)
+					counts[enumValue] = (counts[enumValue] || 0) + 1;
 			}
 		}
 	}
