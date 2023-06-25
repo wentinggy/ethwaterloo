@@ -4,6 +4,7 @@ import Dashboard from "./dashboard"
 import { init } from "@airstack/airstack-react"
 import { useQuery } from "@airstack/airstack-react"
 import { Card, CardContent, Typography } from "@mui/material"
+import Demographics from "./demographics"
 
 init("598406f101364281b160f60f0761fe96")
 
@@ -173,11 +174,17 @@ export default function App() {
   const [tokenBalance, setTokenBalance] = useState(undefined)
   const [transfers, setTransfers] = useState(undefined)
   const [error, setError] = useState("")
+  const [macroScore, setMacroScore] = useState(undefined)
 
   const handleInputChange = (e) => {
     setAddress(e.target.value)
   }
 
+  useEffect(() => {
+    console.log(macroScore)
+  }, [macroScore])
+
+  
   useEffect(() => {
     console.log(transfers)
   }, [transfers])
@@ -189,6 +196,7 @@ export default function App() {
         setError={setError}
         setTokenBalance={setTokenBalance}
         setTransfers={setTransfers}
+        setMacroScore={setMacroScore}
       />
       <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}>
         <input
@@ -200,7 +208,14 @@ export default function App() {
         />
       </div>
       <MyComponent address={address} />
-      <Dashboard error={error} tokenBalance={tokenBalance} />
+      <Dashboard
+				error={error}
+				tokenBalance={tokenBalance}
+				transfers={transfers}
+				macroScore={macroScore}
+				address={address}
+			/>
+			<Demographics> </Demographics>
     </div>
   )
 }
