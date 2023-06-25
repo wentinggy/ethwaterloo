@@ -156,11 +156,11 @@ export default function Tokens({ address }) {
               )
             })}
           </Grid>
-          <Typography variant="h5">Events</Typography>
-          <Grid container spacing={2} sx={{ py: 2 }}>
+          <Typography variant="h6">Events</Typography>
+          <Grid wrap="no-wrap" container spacing={2} sx={{ py: 2, overflow: 'scroll' }}>
             {data.Wallet.poaps.map((poap, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card sx={{ height: "550px" }}>
+              <Grid item xs={12} sm={6} md={4} key={index} sx={{ minWidth: 430, maxWidth: 430 }}>
+                <Card sx={{ height: "500px" }}>
                   <CardContent>
                     <Typography variant="h6" component="h2">
                       Event {index + 1}

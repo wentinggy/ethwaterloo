@@ -21,7 +21,7 @@ import {
 	fetchUserTransfers,
 } from "../api/data";
 
-const pages = ["How it works", "Demographics"];
+const pages = ["How it works"];
 
 export default function Navbar({
 	setAddress,
@@ -70,7 +70,7 @@ export default function Navbar({
 							<Button
 								key={page}
 								sx={{ my: 2, color: "black", display: "block" }}
-								onClick={() => setPage(0)}
+								href="https://github.com/wentinggy/ethwaterloo#readme"
 							>
 								{page}
 							</Button>
