@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Group } from "@visx/group";
 import { Bar } from "@visx/shape";
 import { GradientTealBlue } from "@visx/gradient";
@@ -23,7 +23,6 @@ export default function BarChartSupply({ data }) {
 					const barHeight = height * getBucketFrequency(d, data.count);
 					const barX = (index / data.groups.length) * (width - 100);
 					const barY = height - barHeight;
-					console.log(barHeight, barX, barY);
 
 					return (
 						<Bar

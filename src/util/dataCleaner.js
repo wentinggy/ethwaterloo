@@ -42,14 +42,9 @@ export function extractBucketsFix(wallets, value) {
 	const xMax = Math.max(...supplies);
 
 	// Initialize an array of empty groups
-	const groups = [
-		{ min: 0, max: 5000, wallets: [] },
-		{ min: 5000, max: 10000, wallets: [] },
-		{ min: 10000, max: 100000, wallets: [] },
-		{ min: 100000, max: 500000, wallets: [] },
-		{ min: 500000, max: 1000000, wallets: [] },
-		{ min: 1000000, max: xMax, wallets: [] },
-	];
+	const data = [0, 0, 0, 0, 0, 0];
+
+	const labels = [1000, 5000, 10000, 50000, 1000000, xMax];
 
 	// Assign each object to the corresponding group
 	wallets.forEach((obj) => {
@@ -57,8 +52,8 @@ export function extractBucketsFix(wallets, value) {
 			var found = false;
 			var index = 0;
 			while (!found) {
-				if (groups[index].max >= obj[value]) {
-					groups[index].wallets.push(obj);
+				if (labels[index] >= obj[value]) {
+					data[index] += 1;
 					break;
 				} else {
 					index += 1;
@@ -67,7 +62,7 @@ export function extractBucketsFix(wallets, value) {
 		}
 	});
 
-	return { groups, xMin, xMax, count: wallets.length };
+	return { data, xMin, xMax, count: wallets.length, labels };
 }
 
 export function calculateStatistics(arr, property) {
