@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { init } from "@airstack/airstack-react"
 import { useQuery } from "@airstack/airstack-react"
-import { Box, Container, Grid,Card, CardContent, Typography } from "@mui/material"
+import { Box, Grid, Card, CardContent, Typography } from "@mui/material"
 
 init("598406f101364281b160f60f0761fe96")
 
@@ -110,26 +110,22 @@ export default function Tokens({ address }) {
   }
 
   return (
-    <Container sx={{ pt: 4 }}>
+    <Box>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {!data || !data.Wallet || !data.Wallet.tokenBalances ? (
         <p>Please enter a valid wallet ID</p>
       ) : (
-        <Box sx={{ pt: 2 }}>
-          <Typography variant="h5">NFT Tokens</Typography>
-          <Grid container spacing={2} sx={{ py: 2 }}>
+        <Box>
+          <Grid wrap="no-wrap" container spacing={2} sx={{ py: 2, overflow: 'scroll' }}>
             {data.Wallet.tokenBalances.map((token, index) => {
               if (token.tokenType === "ERC20") {
                 return null; // Skip rendering ERC20 tokens
               }
               return (
-                <Grid item xs={12} sm={6} md={4} key={index}>
+                <Grid item xs={12} sm={6} md={4} key={index} sx={{ minWidth: 430, maxWidth: 430 }}>
                   <Card sx={{ height: "400px" }}>
                     <CardContent>
-                      <Typography variant="h6" component="h2">
-                        Token
-                      </Typography>
                       <Typography variant="body1" component="p">
                         Token Address:{" "}
                         <span style={{ wordBreak: "break-word" }}>{token.tokenAddress}</span>
@@ -162,6 +158,6 @@ export default function Tokens({ address }) {
           </Grid>
         </Box>
       )}
-    </Container>  
+    </Box>  
   )
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import Navbar from "./components/navbar"
 import Dashboard from "./dashboard"
 import Demographics from "./demographics"
-import Tokens from "./tokens"
 import { Box } from "@mui/system"
 
 export default function App() {
@@ -32,7 +31,6 @@ export default function App() {
 				macroScore={macroScore}
 				address={address}
 			/>
-            <Tokens address={address} />
 			<Demographics> </Demographics>
     </Box>
   )

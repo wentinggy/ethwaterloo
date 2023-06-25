@@ -3,6 +3,7 @@ import { Box, Chip, Container, Grid, Typography } from "@mui/material";
 import ValueCard from "./components/card";
 import WebGraph from "./components/demographic/WebGraph";
 import PieChart from "./components/demographic/PieChart";
+import Tokens from "./tokens";
 
 export default function Dashboard({ error, tokenBalance, transfers, macroScore, address }) {
   const tokens = tokenBalance && tokenBalance.tokens && tokenBalance.tokens.filter((token) => token.tokenInfo.symbol.length < 6)
@@ -14,7 +15,7 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
       .reduce((a, b) => a + b)
     : 0
   const inflowAssetsSum = transfers && transfers.result && transfers.result
-    .filter((transfer) => transfer.to === address.toLowerCase())
+    .filter((transfer) => transfer.to === address.toLowerCase() && transfer.tokenSymbol.length < 6)
     .reduce((acc, item) => {
       const { tokenSymbol, value, tokenDecimal } = item;
       acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
@@ -61,7 +62,7 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
   console.log(inflowAssetsSum)
   console.log(outflowAssetsSum)
   return (
-    <Container sx={{ pt: 4 }}>
+    <Container sx={{ py: 4 }}>
       {address && <Typography variant="h5"><b>Address </b> {address}</Typography>}
       {!error && tokenBalance && (
         <Box sx={{ pt: 2 }}>
@@ -73,13 +74,16 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
               </Grid>
             ))}
           </Grid>
-          <Grid container wrap="no-wrap" spacing={2} sx={{ pb: 2, overflow: 'scroll' }}>
+          <Typography variant="h6">ERC20 Tokens</Typography>
+          <Grid container wrap="no-wrap" spacing={2} sx={{ py: 2, overflow: 'scroll' }}>
             {balances.map((item, idx) => (
               <Grid key={idx} item xs={3} sx={{ minWidth: 300, maxWidth: 300 }}>
                 <ValueCard title={item.title} value={item.value} />
               </Grid>
             ))}
           </Grid>
+          <Typography variant="h6">NFT</Typography>
+          <Tokens address={address} />
         </Box>
       )}
       {!error && macroScore && (
