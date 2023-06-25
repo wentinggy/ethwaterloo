@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Chip, Container, Grid, Typography } from "@mui/material";
 import ValueCard from "./components/card";
 import WebGraph from "./components/demographic/WebGraph";
@@ -13,6 +13,20 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
       .map((token, _) => (token.balance/(10 ** parseInt(token.tokenInfo.decimals)) * token.tokenInfo.price.rate))
       .reduce((a, b) => a + b)
     : 0
+  const inflowAssetsSum = transfers && transfers.result && transfers.result
+    .filter((transfer) => transfer.to === address.toLowerCase())
+    .reduce((acc, item) => {
+      const { tokenSymbol, value, tokenDecimal } = item;
+      acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
+      return acc;
+    }, {});
+  const outflowAssetsSum = transfers && transfers.result && transfers.result
+    .filter((transfer) => transfer.from === address.toLowerCase())
+    .reduce((acc, item) => {
+      const { tokenSymbol, value, tokenDecimal } = item;
+      acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
+      return acc;
+    }, {});
   const overview = tokenBalance && [
     {
       title: 'TOTAL WALLET VALUE',
@@ -27,24 +41,14 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
     title: `${token.tokenInfo.name.toUpperCase().substring(0, 22)} BALANCE`,
     value: `${(token.balance/(10 ** parseInt(token.tokenInfo.decimals))).toFixed(6)} ${token.tokenInfo.symbol}`
   }))
-  const risk = macroScore && [
-    {
-      title: 'WALLET RISK SCORE',
-      value: `${macroScore.score}`
-    },
-    {
-      title: 'PROBABILITY OF LIQUIDATION',
-      value: `${macroScore.probability_of_liquidation}`
-    }
-  ]
-  const tokenTransfers = macroScore && [
+  const tokenTransfers = transfers && [
     {
       title: 'INFLOW TOKEN COMPOSITION',
-      value: `${macroScore.score}`
+      value: <PieChart dataset={inflowAssetsSum} />
     },
     {
       title: 'OUTFLOW TOKEN COMPOSITION',
-      value: `${macroScore.probability_of_liquidation}`
+      value: <PieChart dataset={outflowAssetsSum} />
     }
   ]
   const colors = {
@@ -53,21 +57,6 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
     LOW_RISK: 'success',
     VERY_LOW_RISK: 'success'
   }
-  
-  const inflowAssetsSum = transfers && transfers.result && transfers.result
-  .filter((transfer) => transfer.to === address.toLowerCase())
-  .reduce((acc, item) => {
-    const { tokenSymbol, value, tokenDecimal } = item;
-    acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
-    return acc;
-  }, {});
-  const outflowAssetsSum = transfers && transfers.result && transfers.result
-  .filter((transfer) => transfer.from === address.toLowerCase())
-  .reduce((acc, item) => {
-    const { tokenSymbol, value, tokenDecimal } = item;
-    acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
-    return acc;
-  }, {});
   
   console.log(inflowAssetsSum)
   console.log(outflowAssetsSum)
@@ -86,7 +75,7 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
           </Grid>
           <Grid container wrap="no-wrap" spacing={2} sx={{ pb: 2, overflow: 'scroll' }}>
             {balances.map((item, idx) => (
-              <Grid key={idx} item xs={3}>
+              <Grid key={idx} item xs={3} sx={{ minWidth: 300, maxWidth: 300 }}>
                 <ValueCard title={item.title} value={item.value} />
               </Grid>
             ))}
@@ -100,21 +89,22 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
             <Chip label={macroScore.risk_level.split('_').join(' ')} color={colors[macroScore.risk_level]} />
           </Box>
           <Grid container spacing={2} sx={{ py: 2 }}>
-            {risk.map((item, idx) => (
-              <Grid key={idx} item xs={4}>
-                <ValueCard title={item.title} value={item.value} graph={<WebGraph width={340} height={340} data={[1, 2, 3, 4, 5, 6, 7]} />} />
-              </Grid>
-            ))}
+            <Grid item xs={4}>
+              <ValueCard title='WALLET RISK SCORE' value={macroScore.score} graph={<WebGraph dataset={macroScore.score_ingredients} />} />
+            </Grid>
+            <Grid item xs={4}>
+              <ValueCard title='PROBABILITY OF LIQUIDATION' value={macroScore.probability_of_liquidation/100} />
+            </Grid>
           </Grid>
         </Box>
       )}
-      {!error && transfers && macroScore && (
+      {!error && transfers && (
         <Box sx={{ pt: 2 }}>
           <Typography variant="h5" sx={{ mr: 1 }}>Transfers</Typography>
           <Grid container spacing={2} sx={{ py: 2 }}>
             {tokenTransfers.map((item, idx) => (
               <Grid item xs={4}>
-                <ValueCard key={idx} title={item.title} value={item.value} graph={<PieChart width={340} height={340} />} />
+                <ValueCard key={idx} title={item.title} graph={item.value} />
               </Grid>
             ))}
           </Grid>
