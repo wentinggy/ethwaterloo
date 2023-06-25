@@ -38,10 +38,10 @@ export function fetchMacroScore(address, setMacroScore, setError) {
 		.catch((e) => setError(e.message));
 }
 
-// export function fetchSparkWallets() {
-// 	return axios
-// 		.get(
-// 			"https://cors-o0zb.onrender.com/https://spark-api.blockanalitica.com/v1/ethereum/wallets/?format=json&max_borrow=10000001&max_health_rate=5&min_borrow=0&min_health_rate=1&order=-borrow&p=1"
-// 		)
-// 		.then((r) => r.data.results);
-// }
+export function fetchSparkWallets(setWallets) {
+	axios
+		.get(
+			"https://cors-o0zb.onrender.com/https://spark-api.blockanalitica.com/v1/ethereum/wallets/?format=json&max_borrow=10000001&max_health_rate=5&min_borrow=0&min_health_rate=1&order=-borrow&p=1"
+		)
+		.then((r) => setWallets(r.data.results));
+}
