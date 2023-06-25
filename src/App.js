@@ -28,6 +28,7 @@ export default function App() {
         tokenBalance={tokenBalance}
         transfers={transfers}
         macroScore={macroScore}
+        address={address}
       />
     </Box>
   )

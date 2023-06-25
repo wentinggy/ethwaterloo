@@ -12,6 +12,25 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore }
     : 0
   
 
+  console.log('test transfers')
+  console.log(address.toLowerCase())
+  const inflowAssetsSum = transfers && transfers.result && transfers.result
+  .filter((transfer) => transfer.to === address.toLowerCase())
+  .reduce((acc, item) => {
+    const { tokenSymbol, value, tokenDecimal } = item;
+    acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
+    return acc;
+  }, {});
+  const outflowAssetsSum = transfers && transfers.result && transfers.result
+  .filter((transfer) => transfer.from === address.toLowerCase())
+  .reduce((acc, item) => {
+    const { tokenSymbol, value, tokenDecimal } = item;
+    acc[tokenSymbol] = (acc[tokenSymbol] || 0) + parseInt(value, 10) / (10 ** tokenDecimal);
+    return acc;
+  }, {});
+  
+  console.log('user transfers')
+  console.log(outflowAssetsSum)
   return (
     <>
       {!error && tokenBalance && (
