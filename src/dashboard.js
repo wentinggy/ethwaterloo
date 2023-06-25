@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { Box, Chip, Container, Grid, Typography } from "@mui/material"
-import ValueCard from "./components/card"
+import React, { useEffect, useState } from "react";
+import { Box, Chip, Container, Grid, Typography } from "@mui/material";
+import ValueCard from "./components/card";
 
 export default function Dashboard({ error, tokenBalance, transfers, macroScore, address }) {
   const tokens = tokenBalance && tokenBalance.tokens && tokenBalance.tokens.filter((token) => token.tokenInfo.symbol.length < 6)
@@ -84,7 +84,7 @@ export default function Dashboard({ error, tokenBalance, transfers, macroScore, 
           </Grid>
           <Grid container wrap="no-wrap" spacing={2} sx={{ pb: 2, overflow: 'scroll' }}>
             {balances.map((item, idx) => (
-              <Grid item xs={3} sx={{ minWidth: 300, maxWidth: 300 }}>
+              <Grid item xs={3}>
                 <ValueCard key={idx} title={item.title} value={item.value} />
               </Grid>
             ))}
